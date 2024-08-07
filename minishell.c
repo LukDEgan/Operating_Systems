@@ -29,7 +29,7 @@ void prompt(void) {
   fflush(stdout);
 }
 
-void main(int argk, char *argv[], char *envp[])
+int main(int argk, char *argv[], char *envp[])
 /* argk - number of arguments */
 /* argv - argument vector from command line */
 /* envp - environment pointer */
@@ -101,4 +101,5 @@ void main(int argk, char *argv[], char *envp[])
       }
     } /* switch */
   } /* while */
+  return 0;
 } /* main */
