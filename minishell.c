@@ -92,7 +92,8 @@ main(int argk, char *argv[], char *envp[])
       }
       default: /* code executed only by parent process */
       {
-        if (wait(0) == -1) {
+        wpid = wait(0);
+        if (wpid == -1) {
           perror("wait");
         }
         printf("%s done \n", v[0]);
