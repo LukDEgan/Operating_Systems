@@ -103,7 +103,7 @@ int main(int argk, char *argv[], char *envp[])
       default: /* code executed only by parent process */
       {
         if (!bg) {
-          if (waitpid(frkRtnVal, &status, 0) == -1) {
+          if (waitpid(frkRtnVal, status, 0) == -1) {
             perror("waitpid");
           }
         } else {
@@ -113,7 +113,7 @@ int main(int argk, char *argv[], char *envp[])
       }
     } /* switch */
     /* Check for any finished background processes */
-    while ((wpid = waitpid(-1, &status, WNOHANG)) > 0) {
+    while ((wpid = waitpid(-1, status, WNOHANG)) > 0) {
       printf("[%d] Background process done\n", wpid);
     }
   } /* while */
