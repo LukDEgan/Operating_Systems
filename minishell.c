@@ -40,6 +40,8 @@ int main(int argk, char *argv[], char *envp[])
   char *v[NV];         /* array of pointers to command line tokens */
   char *sep = " \t\n"; /* command line token separators    */
   int i;               /* parse index */
+  int bg;              /* background process */
+  int *status;
 
   /* prompt for and process one command line at a time  */
 
@@ -63,6 +65,14 @@ int main(int argk, char *argv[], char *envp[])
       if (v[i] == NULL) break;
     }
     /* assert i is number of tokens + 1 */
+
+    /* Check if the command should be run in the background */
+    if (i > 1 && strcmp(v[i - 1], "&") == 0) {
+      bg = 1;
+      v[i - 1] = NULL; /* Remove the '&' from the argument list */
+    } else {
+      bg = 0;
+    }
 
     /* Handle the 'cd' command */
     if (strcmp(v[0], "cd") == 0) {
@@ -92,14 +102,20 @@ int main(int argk, char *argv[], char *envp[])
       }
       default: /* code executed only by parent process */
       {
-        wpid = wait(0);
-        if (wpid == -1) {
-          perror("wait");
+        if (!bg) {
+          if (waitpid(frkRtnVal, &status, 0) == -1) {
+            perror("waitpid");
+          }
+        } else {
+          printf("[%d] %s started in background\n", frkRtnVal, v[0]);
         }
-        // printf("%s done \n", v[0]);
         break;
       }
     } /* switch */
+    /* Check for any finished background processes */
+    while ((wpid = waitpid(-1, &status, WNOHANG)) > 0) {
+      printf("[%d] Background process done\n", wpid);
+    }
   } /* while */
   return 0;
 } /* main */
