@@ -24,12 +24,12 @@ char line[NL]; /* command input buffer */
         shell prompt
  */
 
-prompt(void) {
+void prompt(void) {
   fprintf(stdout, "\n msh> ");
   fflush(stdout);
 }
 
-main(int argk, char *argv[], char *envp[])
+void main(int argk, char *argv[], char *envp[])
 /* argk - number of arguments */
 /* argv - argument vector from command line */
 /* envp - environment pointer */
