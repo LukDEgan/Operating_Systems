@@ -41,7 +41,7 @@ int main(int argk, char *argv[], char *envp[])
   char *sep = " \t\n"; /* command line token separators    */
   int i;               /* parse index */
   int bg;              /* background process */
-  int *status;
+  int *status = 0;
 
   /* prompt for and process one command line at a time  */
 
