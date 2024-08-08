@@ -71,10 +71,7 @@ int main(int argk, char *argv[], char *envp[])
   /* prompt for and process one command line at a time */
   while (1) { /* do Forever */
     prompt();
-    if (fgets(line, NL, stdin) == NULL) {
-      perror("fgets");
-      continue;
-    }
+    fgets(line, NL, stdin);
     fflush(stdin);
 
     if (feof(stdin)) { /* non-zero on EOF */
